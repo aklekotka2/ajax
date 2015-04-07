@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <title>Blog 31.03.2015</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+
+      <header>
+        
+          <h1>Blog</h1>
+          <p>
+            Coś napiszę o blogu tutaj
+          </p>
+          
+      </header>
+      <div class="main">
+       <section>
+        <div class="title"></div>
+        <article>Bla bla bla</article>
+        <footer>
+          <div class="blog-id"></div>
+          <div class="author"></div
+        </footer>
+       </section>
+        
+      </div>
+        <footer>
+          <div class="content">
+            
+          </div>
+        </footer>
+     
+   
+
+<script src="jquery-1.11.2.js"></script>
+<!-- <script src="moje_js.js"></script> -->
+<script type="text/javascript">
+
+function createElementWithText(element,tresc,rodzic){
+  var elem=document.createElement(element);
+  elem.textContent=tresc;
+  rodzic.appendChild(elem);
+}
+
+
+
+function createPost(data){
+  var div=document.createElement('div');
+
+  createElementWithText('p','-------------',div);
+
+  createElementWithText('p',data.title,div);
+  createElementWithText('p',data.id+' -> '+data.author,div);
+  createElementWithText('p',data.content,div);
+  // var p2=document.createElement('p');
+  // p2.textContent=data.title;
+  // div.appendChild(p2
+  // var p1=document.createElement('p');
+  // p1.textContent=data.id+' -> '+data.author;
+  // div.appendChild(p1);
+  //  var p3=document.createElement('p');
+  // p3.textContent=data.content;
+  // div.appendChild(p3);
+
+  // var p4=document.createElement('p');
+  // p4.textContent='--------------------------';
+  // div.appendChild(p4);
+
+
+  return div;
+  }
+  
+function success(data){
+  // alert('Jest!');
+  // console.log(data);
+
+  for(var i=0; i<data.length;i++){
+    var post=data[i];
+    var postElem=createPost(post);
+    document.body.appendChild(postElem);
+  }
+}
+  $.ajax({
+    url:'/posts/',
+    success: success
+  })
+</script>
+</body>
+</html>
