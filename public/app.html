@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Blog 31.03.2015</title>
+  <link rel="stylesheet" href="css/style.css">
   <meta charset="utf-8" />
 </head>
 <body>
@@ -14,6 +15,24 @@
           </p>
           
       </header>
+        <form method="post" action="">
+        <div>
+            <label for="title" class="label">Title:</label>
+            <input type="text" name="title">
+        </div>
+        <div>
+            <label for="content" class="label">Content:</label>
+            <input type="text" name="content">
+        </div>
+        <div>
+            <label for="author" class="label">Author:</label>
+            <input type="text" name="author">
+        </div>
+
+        <div>
+            <input type="submit" value="send it">
+        </div>
+      </form>
       <div class="main">
        <section>
         <div class="title"></div>
@@ -37,6 +56,7 @@
 <!-- <script src="moje_js.js"></script> -->
 <script type="text/javascript">
 
+//funkcja dodająca nowy element z określoną treścią do danego rodzica
 function createElementWithText(element,tresc,rodzic){
   var elem=document.createElement(element);
   elem.textContent=tresc;
@@ -44,7 +64,7 @@ function createElementWithText(element,tresc,rodzic){
 }
 
 
-
+//funkcja dodająca nowe elementy do dokumentu
 function createPost(data){
   var div=document.createElement('div');
 
@@ -53,38 +73,66 @@ function createPost(data){
   createElementWithText('p',data.title,div);
   createElementWithText('p',data.id+' -> '+data.author,div);
   createElementWithText('p',data.content,div);
-  // var p2=document.createElement('p');
-  // p2.textContent=data.title;
-  // div.appendChild(p2
-  // var p1=document.createElement('p');
-  // p1.textContent=data.id+' -> '+data.author;
-  // div.appendChild(p1);
-  //  var p3=document.createElement('p');
-  // p3.textContent=data.content;
-  // div.appendChild(p3);
-
-  // var p4=document.createElement('p');
-  // p4.textContent='--------------------------';
-  // div.appendChild(p4);
-
 
   return div;
   }
-  
-function success(data){
-  // alert('Jest!');
-  // console.log(data);
 
+//funkcja wyświetlająca w dokumencie elementy bazy danych /pliku db.json  
+function success(data){
   for(var i=0; i<data.length;i++){
     var post=data[i];
     var postElem=createPost(post);
     document.body.appendChild(postElem);
   }
 }
+
+
   $.ajax({
+    type: "GET",
     url:'/posts/',
     success: success
   })
+
+
+var form=document.getElementsByTagName('form')[0];
+
+var submit=document.querySelector('form input[type="submit"]');
+
+submit.addEventListener('click',function(e){
+  e.preventDefault();
+  var author=form.querySelector('input[name="author"]').value;
+  var content=form.querySelector('input[name="content"]').value;
+  var title=form.querySelector('input[name="title"]').value;
+
+
+
+  var data=$('form:input').serializeArray();
+  console.log(data);
+
+  data={'author': author,
+        'content': content,
+        'title': title};
+  
+    // data.author=author;
+    // data.content=content;
+    // data.title=title;
+
+  function success1(){
+  alert ("jest");
+}
+
+
+  console.log(author+' '+title);
+
+   $.ajax({
+    type: "POST",
+    url:'posts',
+    data:data,
+    success: success1
+  })
+
+});
+
 </script>
 </body>
 </html>
