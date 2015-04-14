@@ -49,6 +49,11 @@
             
           </div>
         </footer>
+
+      <!--   <div class="author"><a href="#" id="1">1</a></div -->
+
+
+
      
    
 
@@ -72,6 +77,12 @@ function createPost(data){
 
   createElementWithText('p',data.title,div);
   createElementWithText('p',data.id+' -> '+data.author,div);
+  var a=document.createElement('a');
+  var numer=data.id;
+  a.href='/posts/'+numer;
+  a.id='1';
+  a.textContent=data.id;
+  div.appendChild(a);
   createElementWithText('p',data.content,div);
 
   return div;
@@ -79,10 +90,21 @@ function createPost(data){
 
 //funkcja wyświetlająca w dokumencie elementy bazy danych /pliku db.json  
 function success(data){
-  for(var i=0; i<data.length;i++){
-    var post=data[i];
-    var postElem=createPost(post);
-    document.body.appendChild(postElem);
+  var url= document.baseURI;
+  var n = url.lastIndexOf("/");
+  var id= url.slice(n);
+  alert(id);
+  if(id!='/app.html'){
+    alert('ooo');
+
+
+  }
+  else{
+     for(var i=0; i<data.length;i++){
+       var post=data[i];
+       var postElem=createPost(post);
+        document.body.appendChild(postElem);
+      }
   }
 }
 
@@ -106,7 +128,7 @@ submit.addEventListener('click',function(e){
 
 
 
-  var data=$('form:input').serializeArray();
+  // var data=$('form:input').serializeArray();
   console.log(data);
 
   data={'author': author,
